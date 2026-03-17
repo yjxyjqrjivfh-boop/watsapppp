@@ -53,3 +53,8 @@ npm run dev
 3. Добавить seed-данные для 1 темы и 4 вопросов.
 4. Подключить Stripe checkout/webhook для `subscription_status` и `plan`.
 5. Деплой на Vercel.
+
+
+## Deploy (public preview on Vercel)
+
+Смотри пошаговый гайд в `DEPLOY.md` для максимально быстрого публичного запуска.
