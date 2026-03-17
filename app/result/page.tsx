@@ -1,26 +1,35 @@
-import { TopNav } from '@/components/top-nav';
+import Link from 'next/link';
+import { MobileNav } from '@/components/mobile-nav';
 
 export default function ResultPage() {
   return (
-    <main>
-      <TopNav />
-      <section className="container stack" style={{ paddingBottom: '2rem' }}>
-        <h2 style={{ margin: 0 }}>Результат темы</h2>
-        <div className="grid">
-          <article className="card">
+    <main className="app-shell">
+      <header className="topbar">
+        <div className="logo">Hi<span>History</span></div>
+      </header>
+
+      <section className="card" style={{ display: 'grid', gap: 12 }}>
+        <h1 style={{ margin: 0, fontSize: 'clamp(24px, 4vw, 34px)' }}>Результат темы</h1>
+        <div className="stats">
+          <article className="stat-item">
             <p>Правильных ответов</p>
             <h3>3 / 4</h3>
           </article>
-          <article className="card">
-            <p>Получено XP</p>
-            <h3>+30 XP</h3>
+          <article className="stat-item">
+            <p>XP</p>
+            <h3>+30</h3>
           </article>
-          <article className="card">
-            <p>Новый артефакт</p>
-            <h3>Тризуб князей</h3>
+          <article className="stat-item">
+            <p>Артефакт</p>
+            <h3>Тризуб</h3>
           </article>
         </div>
+        <Link href="/dashboard" className="btn btn-primary" style={{ width: 'fit-content' }}>
+          На главный экран
+        </Link>
       </section>
+
+      <MobileNav />
     </main>
   );
 }
