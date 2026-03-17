@@ -6,24 +6,29 @@ export default function HomePage() {
   return (
     <main className="app-shell">
       <header className="topbar">
-        <div className="logo">Hi<span>History</span></div>
+        <div className="logo">🏛 Hi<span>History</span></div>
+        <span className="badge">MVP</span>
       </header>
 
       <section className="card hero">
         <div style={{ display: 'grid', gap: 14 }}>
-          <p style={{ margin: 0, color: '#ffb86b', fontWeight: 700 }}>История как игра</p>
-          <h1>Подготовка к экзамену в стиле твоего дизайна</h1>
-          <p>Логин, квиз, прогресс, артефакты и админка. Интерфейс сразу адаптирован для телефона и ноутбука.</p>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <Link className="btn btn-primary" href="/login">
-              Start
+          <p style={{ color: '#f8c15e', margin: 0, fontWeight: 700 }}>ИСТОРИЯ УКРАИНЫ • БЫСТРЫЙ СТАРТ</p>
+          <h1>Подготовка к НМТ в формате коротких миссий</h1>
+          <p>
+            Экран построен в mobile-first стиле: крупные блоки, контрастные CTA, понятная структура и единый визуальный стиль
+            для телефона и ноутбука.
+          </p>
+          <div className="actions">
+            <Link href="/login" className="btn btn-primary">
+              Начать экзамен
             </Link>
-            <Link className="btn btn-soft" href="/dashboard">
-              Открыть Dashboard
+            <Link href="/dashboard" className="btn btn-soft">
+              Посмотреть прогресс
             </Link>
           </div>
         </div>
-        <Image src="/images/hero-figure.svg" alt="Исторический персонаж" width={600} height={420} className="screen-img" />
+
+        <Image src="/images/hero-figure.svg" alt="Исторический персонаж" width={700} height={470} className="screen-img" />
       </section>
 
       <MobileNav />

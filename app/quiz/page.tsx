@@ -14,11 +14,11 @@ export default function QuizPage() {
   return (
     <main className="app-shell">
       <header className="topbar">
-        <div className="logo">Hi<span>History</span></div>
+        <div className="logo">🏛 Hi<span>History</span></div>
+        <span style={{ color: '#ccb796', fontSize: 13 }}>Вопрос 1 / 4</span>
       </header>
 
       <section className="card" style={{ display: 'grid', gap: 14 }}>
-        <p style={{ margin: 0, color: '#ffb86b', fontWeight: 700 }}>Вопрос 1 / 4</p>
         <Image src="/images/quiz-card.svg" alt="Вопрос" width={900} height={500} className="screen-img" />
         <h2 style={{ margin: 0 }}>Кто построил Софийский собор в Киеве?</h2>
 

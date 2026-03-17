@@ -1,10 +1,10 @@
 import Link from 'next/link';
 
 const links = [
-  { href: '/', label: 'Home' },
-  { href: '/login', label: 'Login' },
-  { href: '/dashboard', label: 'Dashboard' },
-  { href: '/quiz', label: 'Quiz' },
+  { href: '/', label: 'Главная' },
+  { href: '/login', label: 'Вход' },
+  { href: '/dashboard', label: 'Прогресс' },
+  { href: '/quiz', label: 'Тест' },
   { href: '/admin/users', label: 'Admin' }
 ];
 
