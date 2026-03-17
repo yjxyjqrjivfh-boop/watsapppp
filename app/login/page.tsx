@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
 import { MobileNav } from '@/components/mobile-nav';
 import { loginWithGoogle } from '@/lib/actions';
@@ -10,30 +9,34 @@ export default function LoginPage() {
 
   return (
     <main className="app-shell">
-      <header className="topbar">
-        <div className="logo">🏛 Hi<span>History</span></div>
-        <span style={{ color: '#ccb796', fontSize: 13 }}>Шаг 1 / 5</span>
-      </header>
+      <h1 className="preview-title">Екран входу</h1>
 
-      <section className="card hero">
-        <div style={{ display: 'grid', gap: 14 }}>
-          <h1 style={{ fontSize: 'clamp(26px, 5vw, 38px)' }}>Вход в аккаунт</h1>
-          <p>Авторизация через Google + создание профиля в Supabase: XP, серия дней, дата регистрации.</p>
+      <section className="phone-screen">
+        <div className="status-bar">9:41</div>
+        <div style={{ marginTop: 150, textAlign: 'center' }}>
+          <h2 className="title" style={{ fontSize: 80 }}>Hi Story!</h2>
+          <p style={{ marginTop: 44, fontSize: 52, fontWeight: 700 }}>щоб продовжити, увійдіть в додаток</p>
+        </div>
 
+        <div className="auth-row">
           <button
-            className="btn btn-primary"
-            disabled={loading}
+            className="auth-btn"
             onClick={async () => {
               setLoading(true);
               await loginWithGoogle();
               setLoading(false);
             }}
+            aria-label="Google login"
           >
-            {loading ? 'Подключаем...' : 'Войти через Google'}
+            G
           </button>
+          <button className="auth-btn" aria-label="Apple login"></button>
         </div>
 
-        <Image src="/images/quiz-card.svg" alt="Login illustration" width={900} height={500} className="screen-img" />
+        <p style={{ textAlign: 'center', color: '#9ec5f0', fontSize: 34, lineHeight: 1.2, marginTop: 34 }}>
+          Продовжуючи, ви погоджуєтеся з умовами та політикою конфіденційності
+        </p>
+        {loading ? <p style={{ textAlign: 'center' }}>Підключаємо Google…</p> : null}
       </section>
 
       <MobileNav />

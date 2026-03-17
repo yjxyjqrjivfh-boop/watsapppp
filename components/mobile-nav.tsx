@@ -1,11 +1,11 @@
 import Link from 'next/link';
 
 const links = [
-  { href: '/', label: 'Главная' },
-  { href: '/login', label: 'Вход' },
-  { href: '/dashboard', label: 'Прогресс' },
-  { href: '/quiz', label: 'Тест' },
-  { href: '/admin/users', label: 'Admin' }
+  { href: '/', label: 'Онборд' },
+  { href: '/login', label: 'Логін' },
+  { href: '/dashboard', label: 'Рівні' },
+  { href: '/quiz', label: 'Квіз' },
+  { href: '/result', label: 'Фініш' }
 ];
 
 export function MobileNav() {

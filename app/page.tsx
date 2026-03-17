@@ -5,30 +5,28 @@ import { MobileNav } from '@/components/mobile-nav';
 export default function HomePage() {
   return (
     <main className="app-shell">
-      <header className="topbar">
-        <div className="logo">🏛 Hi<span>History</span></div>
-        <span className="badge">MVP</span>
-      </header>
+      <h1 className="preview-title">Шуточное превью в стиле твоих экранов 😄</h1>
 
-      <section className="card hero">
-        <div style={{ display: 'grid', gap: 14 }}>
-          <p style={{ color: '#f8c15e', margin: 0, fontWeight: 700 }}>ИСТОРИЯ УКРАИНЫ • БЫСТРЫЙ СТАРТ</p>
-          <h1>Подготовка к НМТ в формате коротких миссий</h1>
-          <p>
-            Экран построен в mobile-first стиле: крупные блоки, контрастные CTA, понятная структура и единый визуальный стиль
-            для телефона и ноутбука.
-          </p>
-          <div className="actions">
-            <Link href="/login" className="btn btn-primary">
-              Начать экзамен
-            </Link>
-            <Link href="/dashboard" className="btn btn-soft">
-              Посмотреть прогресс
-            </Link>
-          </div>
+      <section className="phone-screen">
+        <div className="status-bar">9:41</div>
+        <div className="hero-blob">
+          <Image src="/images/hero-figure.svg" alt="Onboarding" width={260} height={220} style={{ width: '84%', height: 'auto' }} />
         </div>
 
-        <Image src="/images/hero-figure.svg" alt="Исторический персонаж" width={700} height={470} className="screen-img" />
+        <div style={{ marginTop: 26, textAlign: 'center' }}>
+          <p className="subtitle" style={{ margin: 0 }}>Ласкаво просимо до</p>
+          <h2 className="title" style={{ fontSize: 52, marginTop: 4 }}>Hi Story!</h2>
+          <p className="subtitle" style={{ marginTop: 14 }}>Тут княгиня Ольга вже чекає твою відповідь 👀</p>
+        </div>
+
+        <div style={{ display: 'grid', gap: 12, marginTop: 44 }}>
+          <Link href="/login" className="btn btn-yellow">
+            Далі
+          </Link>
+          <Link href="/dashboard" className="btn btn-black">
+            Пропустити
+          </Link>
+        </div>
       </section>
 
       <MobileNav />
