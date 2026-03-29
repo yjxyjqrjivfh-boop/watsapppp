@@ -18,70 +18,72 @@ type QuestionItem = {
   animation: string;
 };
 type ArtifactItem = { id: string; title: string; description: string; image: string; resultFor: 'correct' | 'wrong' };
+type MediaItem = { id: string; title: string; mediaType: 'gif' | 'video' | 'lottie'; url: string; useFor: 'correct' | 'wrong' | 'intro' };
 
 const uid = () => Math.random().toString(36).slice(2, 9);
 
-export function AdminStudio({ section = 'all' }: { section?: 'all' | 'menu' | 'levels' | 'questions' | 'artifacts' }) {
-  const [menu, setMenu] = useState<MenuItem[]>([]);
+export function AdminStudio({ section = 'all' }: { section?: 'all' | 'topics' | 'levels' | 'questions' | 'artifacts' | 'media' }) {
+  const [topics, setTopics] = useState<MenuItem[]>([]);
   const [levels, setLevels] = useState<LevelItem[]>([]);
   const [questions, setQuestions] = useState<QuestionItem[]>([]);
   const [artifacts, setArtifacts] = useState<ArtifactItem[]>([]);
+  const [media, setMedia] = useState<MediaItem[]>([]);
 
   useEffect(() => {
-    setMenu(JSON.parse(localStorage.getItem('admin_menu_items') || '[]'));
+    setTopics(JSON.parse(localStorage.getItem('admin_topics') || '[]'));
     setLevels(JSON.parse(localStorage.getItem('admin_levels') || '[]'));
     setQuestions(JSON.parse(localStorage.getItem('admin_questions') || '[]'));
     setArtifacts(JSON.parse(localStorage.getItem('admin_artifacts') || '[]'));
+    setMedia(JSON.parse(localStorage.getItem('admin_media') || '[]'));
   }, []);
 
-  useEffect(() => localStorage.setItem('admin_menu_items', JSON.stringify(menu)), [menu]);
+  useEffect(() => localStorage.setItem('admin_topics', JSON.stringify(topics)), [topics]);
   useEffect(() => localStorage.setItem('admin_levels', JSON.stringify(levels)), [levels]);
   useEffect(() => localStorage.setItem('admin_questions', JSON.stringify(questions)), [questions]);
   useEffect(() => localStorage.setItem('admin_artifacts', JSON.stringify(artifacts)), [artifacts]);
+  useEffect(() => localStorage.setItem('admin_media', JSON.stringify(media)), [media]);
 
-  const showMenu = useMemo(() => section === 'all' || section === 'menu', [section]);
+  const showTopics = useMemo(() => section === 'all' || section === 'topics', [section]);
   const showLevels = useMemo(() => section === 'all' || section === 'levels', [section]);
   const showQuestions = useMemo(() => section === 'all' || section === 'questions', [section]);
   const showArtifacts = useMemo(() => section === 'all' || section === 'artifacts', [section]);
+  const showMedia = useMemo(() => section === 'all' || section === 'media', [section]);
 
   return (
     <div className="admin-studio">
-      {showMenu ? <MenuPanel menu={menu} setMenu={setMenu} /> : null}
+      {showTopics ? <TopicsPanel topics={topics} setTopics={setTopics} /> : null}
       {showLevels ? <LevelsPanel levels={levels} setLevels={setLevels} /> : null}
       {showQuestions ? <QuestionsPanel questions={questions} setQuestions={setQuestions} /> : null}
       {showArtifacts ? <ArtifactsPanel artifacts={artifacts} setArtifacts={setArtifacts} /> : null}
+      {showMedia ? <MediaPanel media={media} setMedia={setMedia} /> : null}
     </div>
   );
 }
 
-function MenuPanel({ menu, setMenu }: { menu: MenuItem[]; setMenu: (v: MenuItem[]) => void }) {
+function TopicsPanel({ topics, setTopics }: { topics: MenuItem[]; setTopics: (v: MenuItem[]) => void }) {
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const title = String(data.get('title') || '').trim();
     const path = String(data.get('path') || '').trim();
     if (!title || !path) return;
-    setMenu([{ id: uid(), title, path }, ...menu]);
+    setTopics([{ id: uid(), title, path }, ...topics]);
     e.currentTarget.reset();
   }
 
   return (
     <section className="admin-card">
-      <h3>Пункты меню (появляются сразу)</h3>
+      <h3>Темы</h3>
       <form className="admin-form" onSubmit={onSubmit}>
-        <input name="title" placeholder="Название пункта" />
+        <input name="title" placeholder="Название темы" />
         <input name="path" placeholder="Путь, например /topic/olga" />
-        <button className="admin-btn" type="submit">Добавить пункт</button>
+        <button className="admin-btn" type="submit">Добавить тему</button>
       </form>
-
       <ul className="admin-list">
-        {menu.map((m) => (
-          <li key={m.id}>
-            <strong>{m.title}</strong>
-            <span>{m.path}</span>
-          </li>
+        {topics.map((t) => (
+          <li key={t.id}><strong>{t.title}</strong><span>{t.path}</span></li>
         ))}
-        {menu.length === 0 ? <li>Пока пусто — добавьте первый пункт.</li> : null}
+        {topics.length === 0 ? <li>Тем пока нет.</li> : null}
       </ul>
     </section>
   );
@@ -101,7 +103,7 @@ function LevelsPanel({ levels, setLevels }: { levels: LevelItem[]; setLevels: (v
 
   return (
     <section className="admin-card">
-      <h3>Уровни (сразу видны на /dashboard)</h3>
+      <h3>Уровни (видны на /dashboard сразу)</h3>
       <form className="admin-form" onSubmit={onSubmit}>
         <input name="title" placeholder="Название уровня" />
         <input name="count" placeholder="Например: 24 питання" />
@@ -111,15 +113,11 @@ function LevelsPanel({ levels, setLevels }: { levels: LevelItem[]; setLevels: (v
         </select>
         <button className="admin-btn" type="submit">Добавить уровень</button>
       </form>
-
       <ul className="admin-list">
         {levels.map((level) => (
-          <li key={level.id}>
-            <strong>{level.title}</strong>
-            <span>{level.count} · {level.open ? 'открыт' : 'закрыт'}</span>
-          </li>
+          <li key={level.id}><strong>{level.title}</strong><span>{level.count} · {level.open ? 'открыт' : 'закрыт'}</span></li>
         ))}
-        {levels.length === 0 ? <li>Пока нет добавленных уровней.</li> : null}
+        {levels.length === 0 ? <li>Уровней пока нет.</li> : null}
       </ul>
     </section>
   );
@@ -138,7 +136,7 @@ function QuestionsPanel({ questions, setQuestions }: { questions: QuestionItem[]
       c: String(data.get('c') || ''),
       d: String(data.get('d') || ''),
       correct: String(data.get('correct') || 'A') as 'A' | 'B' | 'C' | 'D',
-      onCorrect: String(data.get('onCorrect') || '/correct'),
+      onCorrect: String(data.get('onCorrect') || '/quiz?step=next'),
       onWrong: String(data.get('onWrong') || '/wrong'),
       animation: String(data.get('animation') || '')
     };
@@ -150,7 +148,10 @@ function QuestionsPanel({ questions, setQuestions }: { questions: QuestionItem[]
 
   return (
     <section className="admin-card">
-      <h3>Вопросы и логика</h3>
+      <h3>Вопросы</h3>
+      <p style={{ margin: 0, color: '#5b5c63' }}>
+        Чтобы после «Княгиня Ольга» перейти дальше — укажите в поле «Маршрут если верно» следующий экран, например <code>/quiz?step=2</code> или <code>/reward</code>.
+      </p>
       <form className="admin-form" onSubmit={onSubmit}>
         <input name="topic" placeholder="Тема (например Княгиня Ольга)" />
         <textarea name="question" placeholder="Текст вопроса" rows={2} />
@@ -167,9 +168,9 @@ function QuestionsPanel({ questions, setQuestions }: { questions: QuestionItem[]
             <option value="C">Правильный ответ: C</option>
             <option value="D">Правильный ответ: D</option>
           </select>
-          <input name="animation" placeholder="GIF/MP4/Lottie URL для анимации" />
-          <input name="onCorrect" placeholder="Маршрут если верно (например /correct)" defaultValue="/correct" />
-          <input name="onWrong" placeholder="Маршрут если ошибка (например /wrong)" defaultValue="/wrong" />
+          <input name="animation" placeholder="Медиа ID или URL анимации" />
+          <input name="onCorrect" placeholder="Маршрут если верно" defaultValue="/quiz?step=next" />
+          <input name="onWrong" placeholder="Маршрут если ошибка" defaultValue="/wrong" />
         </div>
         <button className="admin-btn" type="submit">Добавить вопрос с логикой</button>
       </form>
@@ -179,7 +180,7 @@ function QuestionsPanel({ questions, setQuestions }: { questions: QuestionItem[]
           <li key={q.id}>
             <strong>{q.topic}: {q.question}</strong>
             <span>Верный: {q.correct} · OK: {q.onCorrect} · FAIL: {q.onWrong}</span>
-            <span>Анимация: {q.animation || 'не указана'}</span>
+            <span>Медиа: {q.animation || 'не указано'}</span>
           </li>
         ))}
         {questions.length === 0 ? <li>Пока нет вопросов.</li> : null}
@@ -206,27 +207,66 @@ function ArtifactsPanel({ artifacts, setArtifacts }: { artifacts: ArtifactItem[]
 
   return (
     <section className="admin-card">
-      <h3>Артефакты для правильных и неправильных ответов</h3>
+      <h3>Артефакты</h3>
       <form className="admin-form" onSubmit={onSubmit}>
         <input name="title" placeholder="Название артефакта" />
         <textarea name="description" placeholder="Описание артефакта" rows={2} />
-        <input name="image" placeholder="Ссылка на изображение (или имя файла)" />
+        <input name="image" placeholder="Ссылка на изображение" />
         <select name="resultFor" defaultValue="correct">
-          <option value="correct">Показывать после правильного ответа</option>
-          <option value="wrong">Показывать после неправильного ответа</option>
+          <option value="correct">После правильного ответа</option>
+          <option value="wrong">После неправильного ответа</option>
         </select>
         <button className="admin-btn" type="submit">Добавить артефакт</button>
       </form>
-
       <ul className="admin-list">
         {artifacts.map((a) => (
-          <li key={a.id}>
-            <strong>{a.title}</strong>
-            <span>{a.description}</span>
-            <span>Показывать: {a.resultFor === 'correct' ? 'после верного ответа' : 'после ошибки'}</span>
-          </li>
+          <li key={a.id}><strong>{a.title}</strong><span>{a.description}</span><span>{a.resultFor}</span></li>
         ))}
-        {artifacts.length === 0 ? <li>Пока нет артефактов.</li> : null}
+        {artifacts.length === 0 ? <li>Артефактов пока нет.</li> : null}
+      </ul>
+    </section>
+  );
+}
+
+function MediaPanel({ media, setMedia }: { media: MediaItem[]; setMedia: (v: MediaItem[]) => void }) {
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const item: MediaItem = {
+      id: uid(),
+      title: String(data.get('title') || ''),
+      mediaType: String(data.get('mediaType') || 'gif') as 'gif' | 'video' | 'lottie',
+      url: String(data.get('url') || ''),
+      useFor: String(data.get('useFor') || 'intro') as 'correct' | 'wrong' | 'intro'
+    };
+    if (!item.title || !item.url) return;
+    setMedia([item, ...media]);
+    e.currentTarget.reset();
+  }
+
+  return (
+    <section className="admin-card">
+      <h3>Медиа (gif / video / lottie)</h3>
+      <form className="admin-form" onSubmit={onSubmit}>
+        <input name="title" placeholder="Название медиа" />
+        <select name="mediaType" defaultValue="gif">
+          <option value="gif">GIF</option>
+          <option value="video">Video</option>
+          <option value="lottie">Lottie</option>
+        </select>
+        <select name="useFor" defaultValue="intro">
+          <option value="intro">Использовать для intro-комикса</option>
+          <option value="correct">Использовать для correct</option>
+          <option value="wrong">Использовать для wrong</option>
+        </select>
+        <input name="url" placeholder="Ссылка на файл" />
+        <button className="admin-btn" type="submit">Добавить медиа</button>
+      </form>
+      <ul className="admin-list">
+        {media.map((m) => (
+          <li key={m.id}><strong>{m.title}</strong><span>{m.mediaType} · {m.useFor}</span><span>{m.url}</span></li>
+        ))}
+        {media.length === 0 ? <li>Медиа пока нет.</li> : null}
       </ul>
     </section>
   );

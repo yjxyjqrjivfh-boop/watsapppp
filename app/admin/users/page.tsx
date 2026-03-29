@@ -1,4 +1,5 @@
 import { TopNav } from '@/components/top-nav';
+import { AdminTabs } from '@/components/admin-tabs';
 
 const users = [
   { email: 'user1@mail.com', xp: 120, streak: 4, joined: '2026-03-10' },
@@ -11,6 +12,7 @@ export default function AdminUsersPage() {
       <TopNav />
       <section style={{ display: 'grid', gap: 12, paddingBottom: '2rem' }}>
         <h2 style={{ margin: 0 }}>Admin · Users</h2>
+        <AdminTabs />
         <div className="admin-card" style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
