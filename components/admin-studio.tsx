@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 
 type MenuItem = { id: string; title: string; path: string };
+type LevelItem = { id: string; title: string; count: string; open: boolean };
 type QuestionItem = {
   id: string;
   topic: string;
@@ -20,28 +21,33 @@ type ArtifactItem = { id: string; title: string; description: string; image: str
 
 const uid = () => Math.random().toString(36).slice(2, 9);
 
-export function AdminStudio({ section = 'all' }: { section?: 'all' | 'menu' | 'questions' | 'artifacts' }) {
+export function AdminStudio({ section = 'all' }: { section?: 'all' | 'menu' | 'levels' | 'questions' | 'artifacts' }) {
   const [menu, setMenu] = useState<MenuItem[]>([]);
+  const [levels, setLevels] = useState<LevelItem[]>([]);
   const [questions, setQuestions] = useState<QuestionItem[]>([]);
   const [artifacts, setArtifacts] = useState<ArtifactItem[]>([]);
 
   useEffect(() => {
     setMenu(JSON.parse(localStorage.getItem('admin_menu_items') || '[]'));
+    setLevels(JSON.parse(localStorage.getItem('admin_levels') || '[]'));
     setQuestions(JSON.parse(localStorage.getItem('admin_questions') || '[]'));
     setArtifacts(JSON.parse(localStorage.getItem('admin_artifacts') || '[]'));
   }, []);
 
   useEffect(() => localStorage.setItem('admin_menu_items', JSON.stringify(menu)), [menu]);
+  useEffect(() => localStorage.setItem('admin_levels', JSON.stringify(levels)), [levels]);
   useEffect(() => localStorage.setItem('admin_questions', JSON.stringify(questions)), [questions]);
   useEffect(() => localStorage.setItem('admin_artifacts', JSON.stringify(artifacts)), [artifacts]);
 
   const showMenu = useMemo(() => section === 'all' || section === 'menu', [section]);
+  const showLevels = useMemo(() => section === 'all' || section === 'levels', [section]);
   const showQuestions = useMemo(() => section === 'all' || section === 'questions', [section]);
   const showArtifacts = useMemo(() => section === 'all' || section === 'artifacts', [section]);
 
   return (
     <div className="admin-studio">
       {showMenu ? <MenuPanel menu={menu} setMenu={setMenu} /> : null}
+      {showLevels ? <LevelsPanel levels={levels} setLevels={setLevels} /> : null}
       {showQuestions ? <QuestionsPanel questions={questions} setQuestions={setQuestions} /> : null}
       {showArtifacts ? <ArtifactsPanel artifacts={artifacts} setArtifacts={setArtifacts} /> : null}
     </div>
@@ -76,6 +82,44 @@ function MenuPanel({ menu, setMenu }: { menu: MenuItem[]; setMenu: (v: MenuItem[
           </li>
         ))}
         {menu.length === 0 ? <li>Пока пусто — добавьте первый пункт.</li> : null}
+      </ul>
+    </section>
+  );
+}
+
+function LevelsPanel({ levels, setLevels }: { levels: LevelItem[]; setLevels: (v: LevelItem[]) => void }) {
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const title = String(data.get('title') || '').trim();
+    const count = String(data.get('count') || '').trim();
+    const open = String(data.get('open') || 'open') === 'open';
+    if (!title || !count) return;
+    setLevels([{ id: uid(), title, count, open }, ...levels]);
+    e.currentTarget.reset();
+  }
+
+  return (
+    <section className="admin-card">
+      <h3>Уровни (сразу видны на /dashboard)</h3>
+      <form className="admin-form" onSubmit={onSubmit}>
+        <input name="title" placeholder="Название уровня" />
+        <input name="count" placeholder="Например: 24 питання" />
+        <select name="open" defaultValue="open">
+          <option value="open">Статус: открыт</option>
+          <option value="locked">Статус: закрыт</option>
+        </select>
+        <button className="admin-btn" type="submit">Добавить уровень</button>
+      </form>
+
+      <ul className="admin-list">
+        {levels.map((level) => (
+          <li key={level.id}>
+            <strong>{level.title}</strong>
+            <span>{level.count} · {level.open ? 'открыт' : 'закрыт'}</span>
+          </li>
+        ))}
+        {levels.length === 0 ? <li>Пока нет добавленных уровней.</li> : null}
       </ul>
     </section>
   );

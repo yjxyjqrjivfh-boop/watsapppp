@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 type ModalType = 'logout' | 'delete' | null;
+type Level = { title: string; count: string; open: boolean };
 
-const levels = [
+const defaultLevels: Level[] = [
   { title: 'Русь - Україна', count: '24 питання', open: true },
   { title: 'Галицько - Волинська держава', count: '24 питання', open: true },
   { title: 'Друга Половина XVI ст.', count: '24 питання', open: false },
@@ -15,6 +16,21 @@ const levels = [
 
 export default function DashboardPage() {
   const [modal, setModal] = useState<ModalType>(null);
+  const [levels, setLevels] = useState<Level[]>(defaultLevels);
+
+  useEffect(() => {
+    const raw = localStorage.getItem('admin_levels');
+    if (!raw) return;
+
+    try {
+      const parsed = JSON.parse(raw) as Array<{ title: string; count: string; open: boolean }>;
+      if (parsed.length > 0) {
+        setLevels(parsed);
+      }
+    } catch {
+      // ignore invalid localStorage value
+    }
+  }, []);
 
   return (
     <main className="app-shell">
