@@ -1,17 +1,16 @@
 import { TopNav } from '@/components/top-nav';
+import { AdminStudio } from '@/components/admin-studio';
 
 export default function AdminQuestionsPage() {
   return (
-    <main>
+    <main className="app-shell">
       <TopNav />
-      <section className="container stack" style={{ paddingBottom: '2rem' }}>
-        <h2 style={{ margin: 0 }}>Admin · Questions</h2>
-        <div className="card stack">
-          <button className="btn">Добавить вопрос</button>
-          <p style={{ margin: 0, color: '#a8b3d1' }}>
-            Поля формы: тема, вопрос, картинка, ответы A/B/C/D, правильный вариант, success/fail анимации.
-          </p>
-        </div>
+      <section style={{ display: 'grid', gap: 12, paddingBottom: '2rem' }}>
+        <h2 style={{ margin: 0 }}>Admin · Конструктор меню, вопросов, логики и анимаций</h2>
+        <p style={{ margin: 0, color: '#5f6068' }}>
+          Да, прямо сейчас: добавляете пункт/вопрос/артефакт — и он сразу появляется ниже (сохранение в localStorage браузера).
+        </p>
+        <AdminStudio section="all" />
       </section>
     </main>
   );

@@ -23,7 +23,7 @@ export default function DashboardPage() {
         <div className="status">9:41</div>
 
         <div className="row-between">
-          <h2 style={{ margin: 0, fontSize: 44 }}>Обери рівень</h2>
+          <h2 style={{ margin: 0, fontSize: 34 }}>Обери рівень</h2>
           <div style={{ display: 'flex', gap: 8 }}>
             <span className="pill">+3</span>
             <button className="pill yellow" onClick={() => setModal('logout')} style={{ border: 0, cursor: 'pointer' }}>👤</button>
@@ -34,8 +34,8 @@ export default function DashboardPage() {
           {levels.map((level, i) => (
             <article className={`level ${level.open ? '' : 'locked'}`} key={`${level.title}-${i}`}>
               <div>
-                <h3 style={{ margin: 0, fontSize: 36 }}>{level.title}</h3>
-                <p style={{ margin: '8px 0 0', color: '#65666c', fontSize: 30 }}>{level.count}</p>
+                <h3 style={{ margin: 0, fontSize: 24 }}>{level.title}</h3>
+                <p style={{ margin: '8px 0 0', color: '#65666c', fontSize: 18 }}>{level.count}</p>
               </div>
               {level.open ? (
                 <Link className="pill" href={i === 0 ? '/topic' : '/quiz'}>Перейти</Link>

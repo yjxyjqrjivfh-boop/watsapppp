@@ -7,11 +7,11 @@ export default function RewardPage() {
       <section className="phone">
         <div className="status">9:41</div>
 
-        <h2 style={{ marginTop: 30, fontSize: 44 }}>Ви отримуєте цей Артефакт!</h2>
+        <h2 style={{ marginTop: 30, fontSize: 30 }}>Ви отримуєте цей Артефакт!</h2>
         <div className="reward-illu" />
 
-        <h3 style={{ textAlign: 'center', marginTop: 26, fontSize: 40 }}>Успенський собор Києво-Печерської лаври</h3>
-        <p style={{ textAlign: 'center', color: '#686970', fontSize: 28 }}>1073-1078 рр., м. Київ</p>
+        <h3 style={{ textAlign: 'center', marginTop: 26, fontSize: 24 }}>Успенський собор Києво-Печерської лаври</h3>
+        <p style={{ textAlign: 'center', color: '#686970', fontSize: 18 }}>1073-1078 рр., м. Київ</p>
 
         <div style={{ display: 'grid', gap: 10, marginTop: 26 }}>
           <Link href="/dashboard" className="btn btn-yellow">На головну</Link>

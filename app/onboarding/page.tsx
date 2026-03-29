@@ -34,8 +34,8 @@ export default function OnboardingPage() {
           <div style={{ fontSize: 120 }}>{slide.emoji}</div>
         </div>
 
-        <h2 style={{ textAlign: 'center', margin: 0, fontSize: 46 }}>{slide.title}</h2>
-        <p style={{ textAlign: 'center', color: '#5c5d63', fontSize: 30, lineHeight: 1.25 }}>{slide.text}</p>
+        <h2 style={{ textAlign: 'center', margin: 0, fontSize: 32 }}>{slide.title}</h2>
+        <p style={{ textAlign: 'center', color: '#5c5d63', fontSize: 18, lineHeight: 1.25 }}>{slide.text}</p>
 
         <div className="dots">
           {slides.map((_, i) => (
@@ -44,16 +44,16 @@ export default function OnboardingPage() {
         </div>
 
         <div className="row-between" style={{ position: 'absolute', left: 16, right: 16, bottom: 20 }}>
-          <Link href="/login" style={{ fontSize: 34, color: '#55565e' }}>Пропустити</Link>
+          <Link href="/login" style={{ fontSize: 20, color: '#55565e' }}>Пропустити</Link>
           {index < slides.length - 1 ? (
             <button
               onClick={() => setIndex((v) => v + 1)}
-              style={{ border: 0, background: 'none', fontSize: 34, color: '#55565e', cursor: 'pointer' }}
+              style={{ border: 0, background: 'none', fontSize: 20, color: '#55565e', cursor: 'pointer' }}
             >
               Далі
             </button>
           ) : (
-            <Link href="/login" style={{ fontSize: 34, color: '#55565e' }}>Далі</Link>
+            <Link href="/login" style={{ fontSize: 20, color: '#55565e' }}>Далі</Link>
           )}
         </div>
       </section>

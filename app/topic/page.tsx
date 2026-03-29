@@ -16,24 +16,24 @@ export default function TopicPage() {
       <section className="phone">
         <div className="status">9:41</div>
         <div className="topic-header">
-          <span style={{ fontSize: 30 }}>←</span>
+          <span style={{ fontSize: 18 }}>←</span>
         </div>
 
         <article className="topic-card">
-          <h2 style={{ margin: 0, fontSize: 46 }}>Київська русь</h2>
-          <p style={{ margin: '8px 0 0', fontSize: 36, fontWeight: 700 }}>В загальному 85 питань</p>
-          <p style={{ margin: '6px 0 0', color: '#666870', fontSize: 30 }}>У вас є 2 невдалі спроби перш ніж почати знову</p>
+          <h2 style={{ margin: 0, fontSize: 32 }}>Київська русь</h2>
+          <p style={{ margin: '8px 0 0', fontSize: 24, fontWeight: 700 }}>В загальному 85 питань</p>
+          <p style={{ margin: '6px 0 0', color: '#666870', fontSize: 18 }}>У вас є 2 невдалі спроби перш ніж почати знову</p>
           <Link className="btn btn-yellow" href="/quiz" style={{ marginTop: 10 }}>Пройти всі питання</Link>
 
-          <h3 style={{ margin: '16px 0 8px', fontSize: 40 }}>Обери тему</h3>
+          <h3 style={{ margin: '16px 0 8px', fontSize: 26 }}>Обери тему</h3>
           <div className="topic-list">
             {topics.map(([name, count]) => (
               <Link key={name} className="topic-item" href="/quiz">
                 <div>
-                  <strong style={{ display: 'block', fontSize: 34 }}>{name}</strong>
-                  <span style={{ color: '#5f6068', fontSize: 28 }}>{count}</span>
+                  <strong style={{ display: 'block', fontSize: 20 }}>{name}</strong>
+                  <span style={{ color: '#5f6068', fontSize: 16 }}>{count}</span>
                 </div>
-                <span style={{ fontSize: 34 }}>›</span>
+                <span style={{ fontSize: 20 }}>›</span>
               </Link>
             ))}
           </div>

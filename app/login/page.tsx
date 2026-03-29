@@ -32,7 +32,7 @@ export default function LoginPage() {
         {message ? <div className="flash-msg">{message}</div> : null}
         {showStreak ? <div className="streak">🔥 Серія: перший день у додатку</div> : null}
 
-        <p style={{ textAlign: 'center', color: '#a8c8eb', fontSize: 28, marginTop: 26 }}>
+        <p style={{ textAlign: 'center', color: '#a8c8eb', fontSize: 16, marginTop: 26 }}>
           Продовжуючи, ви погоджуєтеся з умовами та політикою конфіденційності.
         </p>
 

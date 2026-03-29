@@ -1,16 +1,13 @@
 import { TopNav } from '@/components/top-nav';
+import { AdminStudio } from '@/components/admin-studio';
 
 export default function AdminTopicsPage() {
   return (
-    <main>
+    <main className="app-shell">
       <TopNav />
-      <section className="container stack" style={{ paddingBottom: '2rem' }}>
-        <h2 style={{ margin: 0 }}>Admin · Topics</h2>
-        <div className="grid">
-          <article className="card">История Украины</article>
-          <article className="card">Средневековье</article>
-          <article className="card">Казаки</article>
-        </div>
+      <section style={{ display: 'grid', gap: 12, paddingBottom: '2rem' }}>
+        <h2 style={{ margin: 0 }}>Admin · Пункты меню/темы</h2>
+        <AdminStudio section="menu" />
       </section>
     </main>
   );

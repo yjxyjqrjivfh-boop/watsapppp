@@ -7,11 +7,11 @@ const users = [
 
 export default function AdminUsersPage() {
   return (
-    <main>
+    <main className="app-shell">
       <TopNav />
-      <section className="container stack" style={{ paddingBottom: '2rem' }}>
+      <section style={{ display: 'grid', gap: 12, paddingBottom: '2rem' }}>
         <h2 style={{ margin: 0 }}>Admin · Users</h2>
-        <div className="card" style={{ overflowX: 'auto' }}>
+        <div className="admin-card" style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
