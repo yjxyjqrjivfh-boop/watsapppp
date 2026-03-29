@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 type ModalType = 'logout' | 'delete' | null;
-type Level = { title: string; count: string; open: boolean };
+type Level = { title: string; count: string; open: boolean; parentId?: string };
 
 const defaultLevels: Level[] = [
   { title: 'Русь - Україна', count: '24 питання', open: true },
@@ -23,7 +23,7 @@ export default function DashboardPage() {
     if (!raw) return;
 
     try {
-      const parsed = JSON.parse(raw) as Array<{ title: string; count: string; open: boolean }>;
+      const parsed = JSON.parse(raw) as Array<{ title: string; count: string; open: boolean; parentId?: string }>;
       if (parsed.length > 0) {
         setLevels(parsed);
       }
@@ -48,7 +48,7 @@ export default function DashboardPage() {
 
         <div className="levels">
           {levels.map((level, i) => (
-            <article className={`level ${level.open ? '' : 'locked'}`} key={`${level.title}-${i}`}>
+            <article className={`level ${level.open ? '' : 'locked'}`} key={`${level.title}-${i}`} style={{ marginLeft: level.parentId ? 18 : 0 }}>
               <div>
                 <h3 style={{ margin: 0, fontSize: 24 }}>{level.title}</h3>
                 <p style={{ margin: '8px 0 0', color: '#65666c', fontSize: 18 }}>{level.count}</p>
