@@ -1,45 +1,45 @@
 'use client';
 
 import { useState } from 'react';
-import { MobileNav } from '@/components/mobile-nav';
-import { loginWithGoogle } from '@/lib/actions';
+import Link from 'next/link';
 
 export default function LoginPage() {
-  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [showStreak, setShowStreak] = useState(false);
+
+  function greet(text: string) {
+    setMessage(text);
+    setShowStreak(true);
+    setTimeout(() => setShowStreak(false), 2500);
+  }
 
   return (
     <main className="app-shell">
-      <h1 className="preview-title">Екран входу</h1>
+      <h1 className="section-title">3) Авторизация (заглушка)</h1>
+      <section className="phone">
+        <div className="status">9:41</div>
 
-      <section className="phone-screen">
-        <div className="status-bar">9:41</div>
-        <div style={{ marginTop: 150, textAlign: 'center' }}>
-          <h2 className="title" style={{ fontSize: 80 }}>Hi Story!</h2>
-          <p style={{ marginTop: 44, fontSize: 52, fontWeight: 700 }}>щоб продовжити, увійдіть в додаток</p>
+        <div className="login-center">
+          <h1>Hi Story!</h1>
+          <p>щоб продовжити, увійдіть в додаток</p>
         </div>
 
-        <div className="auth-row">
-          <button
-            className="auth-btn"
-            onClick={async () => {
-              setLoading(true);
-              await loginWithGoogle();
-              setLoading(false);
-            }}
-            aria-label="Google login"
-          >
-            G
-          </button>
-          <button className="auth-btn" aria-label="Apple login"></button>
+        <div className="oauth">
+          <button onClick={() => greet('Привет Ларс')}>G</button>
+          <button onClick={() => greet('Привет Лекс')}></button>
         </div>
 
-        <p style={{ textAlign: 'center', color: '#9ec5f0', fontSize: 34, lineHeight: 1.2, marginTop: 34 }}>
-          Продовжуючи, ви погоджуєтеся з умовами та політикою конфіденційності
+        {message ? <div className="flash-msg">{message}</div> : null}
+        {showStreak ? <div className="streak">🔥 Серія: перший день у додатку</div> : null}
+
+        <p style={{ textAlign: 'center', color: '#a8c8eb', fontSize: 28, marginTop: 26 }}>
+          Продовжуючи, ви погоджуєтеся з умовами та політикою конфіденційності.
         </p>
-        {loading ? <p style={{ textAlign: 'center' }}>Підключаємо Google…</p> : null}
-      </section>
 
-      <MobileNav />
+        <div style={{ position: 'absolute', left: 16, right: 16, bottom: 18 }}>
+          <Link href="/dashboard" className="btn btn-yellow">Увійти</Link>
+        </div>
+      </section>
     </main>
   );
 }

@@ -1,58 +1,78 @@
 'use client';
 
-import { useState } from 'react';
-import { MobileNav } from '@/components/mobile-nav';
-import { submitAnswer } from '@/lib/actions';
+import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+const frames = [
+  'Чули що сталось? Ігоря вбили!',
+  'Це триндець! Я маю вирішити що тепер робити!',
+  'Княгиня Ольга думає над помстою…',
+  'Час відповісти на питання 👇'
+];
 
 const options = ['Нічого, бо в неї був ще один чоловік', 'Охрестила Русь', 'Послала голубів і спалила село', 'Відсвяткувала, бо сама давно те вбивство планувала'];
 
 export default function QuizPage() {
+  const [frame, setFrame] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
-  const [result, setResult] = useState<{ isCorrect: boolean; message: string } | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (frame >= frames.length - 1) return;
+    const t = setTimeout(() => setFrame((f) => f + 1), 1500);
+    return () => clearTimeout(t);
+  }, [frame]);
+
+  const progress = useMemo(() => `${Math.min(frame + 1, 4)}/4`, [frame]);
+
+  const questionVisible = frame >= 2;
 
   return (
     <main className="app-shell">
-      <h1 className="preview-title">Екран питання</h1>
+      <h1 className="section-title">6) Комикс + вопрос</h1>
+      <section className="phone" style={{ paddingTop: 0 }}>
+        <div className="comic-bg" />
+        <div className="comic-character" />
 
-      <section className="phone-screen" style={{ minHeight: 760 }}>
-        <div className="quiz-bg" />
-
-        <div className="quiz-content">
-          <div className="status-bar">9:41</div>
-          <div className="top-row">
-            <span className="pill" style={{ paddingInline: 16 }}>✕</span>
-            <span className="pill locked">1/4</span>
+        <div style={{ position: 'relative', zIndex: 2, paddingTop: 14 }}>
+          <div className="status">9:41</div>
+          <div className="row-between">
+            <button className="pill yellow" style={{ border: 0 }}>✕</button>
+            <span className="pill yellow">{progress}</span>
           </div>
 
-          <div style={{ marginTop: 28 }}>
-            <span className="bubble">Що зробила княгиня Ольга?</span>
-          </div>
+          <div className="comic-bubble">{frames[frame]}</div>
 
-          <div className="quiz-options">
-            {options.map((option) => (
-              <button key={option} className={`quiz-option ${selected === option ? 'active' : ''}`} onClick={() => setSelected(option)}>
-                {option}
+          {questionVisible ? (
+            <div className="question-wrap">
+              <div className="pill yellow" style={{ width: 'fit-content' }}>Що зробила княгиня Ольга?</div>
+
+              <div className="answers">
+                {options.map((option) => (
+                  <button key={option} onClick={() => setSelected(option)} className={`answer ${selected === option ? 'selected' : ''}`}>
+                    {option}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                className="btn btn-yellow"
+                style={{ marginTop: 10 }}
+                onClick={() => {
+                  if (!selected) return;
+                  if (selected === 'Охрестила Русь') {
+                    router.push('/correct');
+                  } else {
+                    router.push('/wrong');
+                  }
+                }}
+              >
+                Обрати
               </button>
-            ))}
-          </div>
-
-          <button
-            className="btn btn-yellow"
-            style={{ marginTop: 12 }}
-            onClick={async () => {
-              if (!selected) return;
-              const response = await submitAnswer(selected, 'Охрестила Русь');
-              setResult(response);
-            }}
-          >
-            Обрати
-          </button>
-
-          <div style={{ marginTop: 22, color: '#fff', fontSize: 18 }}>{result ? result.message : 'Підказка: обери відповідь зі скріну 😉'}</div>
+            </div>
+          ) : null}
         </div>
       </section>
-
-      <MobileNav />
     </main>
   );
 }
