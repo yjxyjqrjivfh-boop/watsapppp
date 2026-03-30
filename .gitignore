@@ -24,3 +24,6 @@ pnpm-debug.log*
 # local media drafts (store production media in Supabase Storage/CDN)
 public/uploads/
 admin-uploads/
+
+# keep PRs small in Codex UI
+package-lock.json
