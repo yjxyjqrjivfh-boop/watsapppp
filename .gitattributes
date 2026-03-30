@@ -1,0 +1,14 @@
+* text=auto eol=lf
+
+# force text for source and config
+*.ts text
+*.tsx text
+*.js text
+*.mjs text
+*.json text
+*.md text
+*.sql text
+*.css text
+*.svg text
+*.yml text
+*.yaml text

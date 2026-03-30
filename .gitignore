@@ -1,0 +1,26 @@
+# dependencies
+node_modules/
+
+# next build artifacts
+.next/
+out/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# env files
+.env
+.env.*
+!.env.example
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
+
+# local media drafts (store production media in Supabase Storage/CDN)
+public/uploads/
+admin-uploads/
